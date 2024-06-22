@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cassandra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: cassandra:3.11
+        ports:
+        - containerPort: 9042
+        volumeMounts:
+        - name: cassandra-config
+          mountPath: /etc/cassandra
+      volumes:
+      - name: cassandra-config
+        configMap:
+          name: cassandra-config

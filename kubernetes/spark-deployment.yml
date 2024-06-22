@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+  template:
+    metadata:
+      labels:
+        app: spark
+    spec:
+      containers:
+      - name: spark
+        image: bitnami/spark:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: spark-config
+          mountPath: /opt/spark/conf
+      volumes:
+      - name: spark-config
+        configMap:
+          name: spark-config
